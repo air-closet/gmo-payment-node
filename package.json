@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/t-k/gmo-payment-node.git"
+    "url": "https://github.com/air-closet/gmo-payment-node.git"
   },
   "license": "MIT"
 }
