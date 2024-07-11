@@ -1,6 +1,6 @@
 https = require "https"
 querystring = require "querystring"
-iconv = require "iconv"
+iconv = require "iconv-lite"
 Const = require "./const"
 
 class GMOAPI
@@ -34,9 +34,8 @@ class GMOAPI
         response += chunk
       res.on "end", ->
         err = null
-        conv = new iconv.Iconv("SHIFT_JIS", "UTF-8")
         try
-          response = conv.convert(response).toString()
+          response = iconv.decode(response, 'SHIFT_JIS')
         catch error
           console.log "ConvertError: #{error} #{response}"
         response = querystring.parse(response)
@@ -65,10 +64,9 @@ class GMOAPI
 
   replaceParams: (params) ->
     new_params = {}
-    conv = new iconv.Iconv("UTF-8", "SHIFT_JIS")
     for key of params
       try
-        new_params[Const[key]] = conv.convert("#{params[key]}").toString()
+        new_params[Const[key]] = iconv.encode("#{params[key]}", 'SHIFT_JIS').toString()
       catch error
         new_params[Const[key]] = "#{params[key]}"
     return new_params
